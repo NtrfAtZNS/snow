@@ -13,7 +13,7 @@ package snow.modules.opengl;
     typedef GLTexture           = snow.modules.opengl.web.GL.GLTexture;
     typedef GLUniformLocation   = snow.modules.opengl.web.GL.GLUniformLocation;
 
-#else
+#elseif !snow_dedicated_server
 
     typedef GL                  = opengl.WebGL;
     typedef GLActiveInfo        = opengl.WebGL.GLActiveInfo;
@@ -25,5 +25,8 @@ package snow.modules.opengl;
     typedef GLShader            = opengl.WebGL.GLShader;
     typedef GLTexture           = opengl.WebGL.GLTexture;
     typedef GLUniformLocation   = opengl.WebGL.GLUniformLocation;
+
+#else
+
 
 #end //!snow_web
