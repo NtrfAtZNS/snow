@@ -28,5 +28,15 @@ package snow.modules.opengl;
 
 #else
 
+    typedef GL                  = snow.modules.opengl.server.GL;
+    typedef GLActiveInfo        = snow.modules.opengl.server.GL.GLActiveInfo;
+    typedef GLBuffer            = snow.modules.opengl.server.GL.GLBuffer;
+    typedef GLContextAttributes = snow.modules.opengl.server.GL.GLContextAttributes;
+    typedef GLFramebuffer       = snow.modules.opengl.server.GL.GLFramebuffer;
+    typedef GLProgram           = snow.modules.opengl.server.GL.GLProgram;
+    typedef GLRenderbuffer      = snow.modules.opengl.server.GL.GLRenderbuffer;
+    typedef GLShader            = snow.modules.opengl.server.GL.GLShader;
+    typedef GLTexture           = snow.modules.opengl.server.GL.GLTexture;
+    typedef GLUniformLocation   = snow.modules.opengl.server.GL.GLUniformLocation;
 
 #end //!snow_web
