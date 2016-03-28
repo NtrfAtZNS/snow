@@ -5,6 +5,7 @@ import snow.api.Debug.*;
 import snow.api.buffers.Uint8Array;
 import snow.core.native.io.IO.FileSeek;
 
+#if linc_ogg
 import ogg.Ogg;
 
 class AudioDataOGG extends AudioData {
@@ -266,7 +267,8 @@ class OGG {
         //which can mislead the amounts, so we work out how much is left if near the end
         var _file_size:Int = _ogg.app.io.module.file_size(_ogg.handle);
         var _file_cur = _ogg.app.io.module.file_tell(_ogg.handle);
-        var _read_size = Std.int(Math.min(_file_size-_file_cur, _total));
+
+        var _read_size = if (_total < _file_size-_file_cur) _total else _file_size-_file_cur;
 
         var _read_n = _ogg.app.io.module.file_read(_ogg.handle, _buffer, _read_size, 1);
         var _read = (_read_n * _read_size);
@@ -307,3 +309,5 @@ class OGG {
 
 
 } //OGG
+
+#end

@@ -69,7 +69,9 @@ class NativeAudioData {
 
             var _info = switch(_format) {
                 case af_wav: WAV.from_file(app, _path, _is_stream);
+#if linc_ogg
                 case af_ogg: OGG.from_file(app, _path, _is_stream);
+#end
                 case af_pcm: PCM.from_file(app, _path, _is_stream);
                 case _: null;
             } //switch _format
@@ -88,7 +90,9 @@ class NativeAudioData {
 
             var _info = switch(_format) {
                 case af_wav: WAV.from_bytes(app, _id, _bytes);
+#if linc_ogg
                 case af_ogg: OGG.from_bytes(app, _id, _bytes);
+#end
                 case af_pcm: PCM.from_bytes(app, _id, _bytes);
                 case _ : null;
             } //switch _format

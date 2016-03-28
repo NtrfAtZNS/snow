@@ -9,7 +9,9 @@ import snow.api.buffers.ArrayBufferView;
 import snow.api.buffers.DataView;
 import snow.core.native.io.IO.FileSeek;
 
+#if linc_stb
 import stb.Image;
+#end
 
 @:allow(snow.systems.assets.Assets)
 class Assets implements snow.modules.interfaces.Assets {
@@ -30,7 +32,8 @@ class Assets implements snow.modules.interfaces.Assets {
             var _image = image_info_from_load_direct(_path, _components);
 
             if(_image == null) {
-                var reason = load_direct_err == 1 ? 'invalid file handle, file not found?' : stb.Image.failure_reason();
+                var reason = load_direct_err == 1 ? 'invalid file handle, file not found?' : 
+					#if linc_stb stb.Image.failure_reason() #else 'unknown error' #end ;
                 reject(Error.error('failed to load `$_path` as image. reason: `$reason`'));
             } else {
                 resolve(_image);
@@ -76,7 +79,11 @@ class Assets implements snow.modules.interfaces.Assets {
             var _image = image_info_from_bytes_direct(_id, _bytes, _components);
 
             if(_image == null) {
+			#if linc_stb
                 reject(Error.error('failed to load `$_id` from bytes. reason: `${stb.Image.failure_reason()}`'));
+			#else
+				reject(Error.error('failed to load `$_id` from bytes.'));
+			#end
             } else {
                 resolve(_image);
             }
@@ -91,6 +98,7 @@ class Assets implements snow.modules.interfaces.Assets {
         assertnull(_bytes);
 
         var _image_bytes = _bytes.toBytes();
+#if linc_stb
         var _info = stb.Image.load_from_memory(_image_bytes.getData(), _image_bytes.length, _components);
 
         if(_info == null) {
@@ -109,7 +117,9 @@ class Assets implements snow.modules.interfaces.Assets {
             bpp_source : _info.comp,
             pixels : new Uint8Array( _pixel_bytes )
         });
-
+#else
+		return image_info_from_pixels(_id, 1, 1, new Uint8Array());
+#end
     } //info_from_bytes
 
     public function image_info_from_pixels(_id:String, _width:Int, _height:Int, _pixels:Uint8Array, ?_bpp:Int=4) : ImageData {
@@ -132,4 +142,3 @@ class Assets implements snow.modules.interfaces.Assets {
 
 
 } //Assets
-

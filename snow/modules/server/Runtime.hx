@@ -2,7 +2,10 @@ package snow.modules.server;
 
 import snow.api.Debug.*;
 import snow.types.Types;
+
+#if linc_timestamp
 import timestamp.Timestamp; // TODO: this dependency is not supported for java target
+#end
 
 @:allow(snow.Snow)
 class Runtime extends snow.core.native.Runtime {
@@ -62,9 +65,13 @@ class Runtime extends snow.core.native.Runtime {
 
     static var timestamp_start : Float = 0.0;
     inline public static function timestamp() : Float {
-
-        return Timestamp.now() - timestamp_start;
-
+#if linc_timestamp
+		return Timestamp.now() - timestamp_start;
+#elseif java
+		return Sys.cpuTime() - timestamp_start;
+#else
+		return haxe.Timer.stamp() - timestamp_start;
+#end
     } //timestamp
 
     function run_loop() {
