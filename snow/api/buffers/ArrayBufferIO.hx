@@ -45,7 +45,7 @@ class ArrayBufferIO {
         #if !snow_no_inline_buffers @:extern inline #end
         public static function setUint8Clamped( buffer:ArrayBuffer, byteOffset:Int, value:UInt ) {
 
-            setUint8( buffer, byteOffset, _clamp(value) );
+            setUint8( buffer, byteOffset, _clamp(cast value) );
 
         }
 
